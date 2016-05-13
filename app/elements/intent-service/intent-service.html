@@ -1,0 +1,473 @@
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="..\..\bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="../grn-service/grn-service.html">
+<link rel="import" href="../dialog-page/dialog-page.html">
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-dialog/paper-dialog.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-dialog-scrollable/paper-dialog-scrollable.html">
+<link rel="import" href="../../bower_components/paper-styles/color.html">
+<link rel="import" href="../../bower_components/paper-styles/demo-pages.html">
+<link rel="import" href="../../bower_components/neon-animation/neon-animations.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="stylesheet" href="../../bower_components/paper-styles/demo.css">
+
+<dom-module id="intent-service">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button{
+        text-align: center;      
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 5px 5px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 10px;
+        background-color: #3d6868;
+        color: white;
+        height: 30px;
+        margin-top: 1%;
+        text-transform:none;
+        margin-left: 3%;
+      }
+      .dialogdiv{
+        @apply(--layout-vertical);
+      }
+      .innerdialog{
+        @apply(--layout-horizontal);
+      }
+    </style>
+
+    
+  <!--Component which make request to display the Intent items based on INT no-->
+    <iron-ajax
+      id="intentstateupdateajax"
+      url="{{intentupdateurl}}"
+      params='{{intentupdateparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="intentstateupdateResponse">
+    </iron-ajax>
+
+    <!-- Fetch role info for the intent items -->
+    <iron-ajax
+      id="promoteRolereadAjax"
+      url="{{promoterolereadurl}}"
+      params="{{promoteroleread}}"
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnPromoteRolereadResponse">
+    </iron-ajax>
+
+    <!--Component which make request to display the Intent items based on INT no-->
+    <iron-ajax
+
+      id="intentpoitemajax"
+      url="{{intentpourl}}"
+      params='{{intentpoparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnintentpoitemResponse">
+    </iron-ajax>
+
+     <!--Component to create po for the item-->
+    <iron-ajax
+      id="itempocreateajax"
+      url="{{itempocreateurl}}"
+      params='{{itempocreateparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnitempocreateResponse">
+    </iron-ajax>
+
+     <iron-ajax
+      id="viewintentpocreateajax"
+      url="{{viewintentpocreateurl}}"
+      params='{{viewintentpocreateparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnviewintentpocreateResponse">
+    </iron-ajax>
+
+
+     <iron-ajax
+      id="viewintentpromoteajax"
+      url="{{viewintentpromoteurl}}"
+      params='{{viewintentpromoteparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnviewintentpromoteResponse">
+    </iron-ajax>
+
+      <iron-ajax
+      id="posequpdateajax"
+      url="{{posequpdateurl}}"
+      params='{{posequpdateparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnposequpdateResponse">
+    </iron-ajax>
+
+    <iron-ajax
+      id="intenttypelistajax"
+      url="{{intenttypelisturl}}"
+      params='{{intenttypelistparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnintenttypelistResponse">
+    </iron-ajax>
+
+    <iron-ajax
+      id="purchaseorderajax"
+      url="{{purchaseorderurl}}"
+      params='{{purchaseorderparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnPurchaseorderResponse">
+    </iron-ajax>
+
+     <iron-ajax
+      id="purchaseorderitemajax"
+      url="{{purchaseorderitemurl}}"
+      params='{{purchaseorderitemparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnPurchaseorderitemResponse">
+    </iron-ajax>
+
+    <iron-ajax
+      id="purchaseorderitemtaxajax"
+      url="{{purchaseorderitemtaxurl}}"
+      params='{{purchaseorderitemtaxparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnPurchaseorderitemtaxResponse">
+    </iron-ajax>
+
+    <iron-ajax
+      id="purchaseorderitempriceajax"
+      url="{{purchaseorderitempriceurl}}"
+      params='{{purchaseorderitempriceparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnPurchaseorderitempriceResponse">
+    </iron-ajax>
+
+    <grn-service id="gs"></grn-service>
+
+    <div><dialog-page id="ID_Show_Dialog"></dialog-page></div>
+  </template>
+  <!-- <script src="//ajax.googleapis.com/ajax/libs/dojo/1.6.3/dojo/dojo.xd.js"></script> -->
+  <script>
+  (function() {
+    'use strict';
+    var productid="";
+    var intentno;
+    var promotestate;
+    var no=0;
+    var arrlength=0;
+    var poarray=[];
+    var largestpono=0;
+    var poarr=[];
+    var poitemarr=[];
+    var poitemtax=[];
+    var poitemprice=[];
+    Polymer({
+      is: 'intent-service',
+      ready:function(){
+        this.flag=0;
+      },
+      FnPurchaseorderService:function(){
+         var obj={"intentregno":"","itemdes":""};
+         obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+         obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");       
+         this.purchaseorderurl=sessionStorage.getItem("curr_sess_url")+"purchaseorder-service";
+         this.purchaseorderparam=obj;
+         this.$.purchaseorderajax.generateRequest(); 
+
+      },
+      FnPurchaseorderResponse:function(e){
+          poarr=e.detail.response.itemarr;
+         if(poarr.length>0){
+         var d=new Date(poarr[0].PO_Date);
+         //alert(d);
+         var y=d.getFullYear();
+         var m=d.getMonth();
+         var d=d.getDate();
+         poarr[0].PO_Date=d+"/"+m+"/"+y;
+         document.querySelector("purchaseorder-home").poarray=poarr;
+         document.querySelector("purchaseorder-card").poarray=poarr;
+         var obj={"intentregno":"","itemdes":""};
+         obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+         obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");       
+         this.purchaseorderitemurl=sessionStorage.getItem("curr_sess_url")+"purchaseorderitem-service";
+         this.purchaseorderitemparam=obj;
+         this.$.purchaseorderitemajax.generateRequest(); 
+         //alert(JSON.stringify(poarr));
+         }
+      },
+      FnPurchaseorderitemResponse:function(e){
+         poitemarr=e.detail.response.itemarr;         
+         if(poitemarr.length>0){
+         var obj={"intentregno":"","itemdes":""};
+         obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+         obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");       
+         this.purchaseorderitemtaxurl=sessionStorage.getItem("curr_sess_url")+"purchaseorderitemtax-service";
+         this.purchaseorderitemtaxparam=obj;
+         this.$.purchaseorderitemtaxajax.generateRequest(); 
+         //alert(JSON.stringify(poitemarr));
+         }
+      },
+      FnPurchaseorderitemtaxResponse:function(e){
+         poitemtax=e.detail.response.itemarr;  
+         //alert(JSON.stringify(poitemtax));       
+         if(poitemtax.length>0){
+         var obj={"intentregno":"","itemdes":""};
+         obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+         obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");       
+         this.purchaseorderitempriceurl=sessionStorage.getItem("curr_sess_url")+"purchaseorderitemprice-service";
+         this.purchaseorderitempriceparam=obj;
+         this.$.purchaseorderitempriceajax.generateRequest(); 
+         //alert(JSON.stringify(poitemarr));
+         }
+      },
+      FnPurchaseorderitempriceResponse:function(e){
+          poitemprice=e.detail.response.itemarr;
+          if(poitemprice.length>0){
+          //alert(JSON.stringify(poitemprice));
+          var tax1=((parseFloat(poitemtax[0].Excise_Duty))/100);
+          var tax2=((parseFloat(poitemtax[0].VAT))/100);
+          var tax3=((parseFloat(poitemtax[0].CST))/100);
+          var total=(parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(poitemarr[0].Quantity)).toFixed(2);
+          //alert(total);
+          var exduty=(parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(tax1))*parseFloat(poitemarr[0].Quantity).toFixed(2);
+          poitemarr[(poitemarr.length)-1].price=(poitemprice[0].Item_Supplier_price).toFixed(2);
+          poitemarr[(poitemarr.length)-1].total=(parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(poitemarr[0].Quantity)).toFixed(2);
+          poitemarr[(poitemarr.length)-1].exduty=((parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(tax1))*parseFloat(poitemarr[0].Quantity)).toFixed(2);
+
+          if(poarr[0].State=="Tamilnadu"||poarr[0].State=="tamilnadu"||poarr[0].State=="Tamil nadu"||poarr[0].State=="tamil nadu"){
+            //alert(parseInt(poitemprice[0].Item_Supplier_price));
+            //alert(parseFloat(tax2));
+            //alert(parseInt(poitemarr[0].Quantity));
+            //alert(parseInt(poitemprice[0].Item_Supplier_price)*parseFloat(tax2)*parseInt(poitemarr[0].Quantity));
+          poitemarr[(poitemarr.length)-1].vat=parseFloat(parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(tax2)*parseFloat(poitemarr[0].Quantity)).toFixed(2);
+          poitemarr[(poitemarr.length)-1].cst=parseFloat("0").toFixed(2);
+          poitemarr[(poitemarr.length)-1].grandtot=(parseFloat(total)+parseFloat(exduty)+parseFloat(parseFloat(poitemprice[0].Item_Supplier_price)*(parseFloat(tax2))*parseFloat(poitemarr[0].Quantity))).toFixed(2);
+          }
+          else{
+            //alert(parseInt(poitemprice[0].Item_Supplier_price));
+            //alert(parseFloat(tax3));
+            //alert(parseInt(poitemarr[0].Quantity));
+            //alert(parseInt(poitemprice[0].Item_Supplier_price)*parseFloat(tax3)*parseInt(poitemarr[0].Quantity));
+          poitemarr[(poitemarr.length)-1].vat=parseFloat("0").toFixed(2);
+          poitemarr[(poitemarr.length)-1].cst=parseFloat(parseFloat(poitemprice[0].Item_Supplier_price)*parseFloat(tax3)*parseFloat(poitemarr[0].Quantity)).toFixed(2);          
+          poitemarr[(poitemarr.length)-1].grandtot=(parseFloat(total)+parseFloat(exduty)+parseFloat(parseFloat(poitemprice[0].Item_Supplier_price)*(parseFloat(tax3))*parseFloat(poitemarr[0].Quantity))).toFixed(2);
+          }
+         
+
+          //poitemarr.push(poitemprice[0].Item_Supplier_price);
+          //alert(JSON.stringify(poitemarr));
+          }
+          document.querySelector("purchaseorder-home").poitemarray=poitemarr;
+          document.querySelector("purchaseorder-card").poitemarray=poitemarr;
+      },
+      FnSelectSupplier:function(e){
+        var selecteditem=e.target.selectedItem.textContent.trim();
+        for(var i=0;i<this.suppliernamearr.length;i++){
+          for(var j=0;j<this.suppliernamearr[i].suppliername.length;j++){
+          if(selecteditem==this.suppliernamearr[i].suppliername[j].name)
+            this.flag=1;
+          }
+        } 
+        if(this.flag==1)
+          alert('Po raised against the supplier'+selecteditem);
+        else
+          alert('Go with another supplier');      
+      },
+      FnIntentTypeListService:function(){
+         var obj={"loggeduser":""};
+         obj.loggeduser=sessionStorage.getItem("loggeduser");        
+         this.intenttypelisturl=sessionStorage.getItem("curr_sess_url")+"intenttypelist-service";
+         this.intenttypelistparam=obj;
+         this.$.intenttypelistajax.generateRequest(); 
+      },
+      FnintenttypelistResponse:function(e){
+        //alert(JSON.stringify(e.detail.response.itemarr));
+        document.querySelector('intent-page').FnSetIntentType(e.detail.response.itemarr);
+      },
+      FnIntentPoItemRead:function(){
+         var obj={"intentregno":"","itemdes":""};
+         obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+         obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");
+         this.intentpourl=sessionStorage.getItem("curr_sess_url")+"intentpoitemread-service";
+         this.intentpoparam=obj;
+         this.$.intentpoitemajax.generateRequest();      
+      },
+      FnintentpoitemResponse:function(e){
+        // alert(JSON.stringify(e.detail.response.itemarr));
+        document.querySelector('viewintentitemexpand-page').suppliernamearr=e.detail.response.itemarr;
+        //alert(document.querySelector('viewintentitemexpand-page').suppliernamearr);
+        document.querySelector('viewintentitemexpand-page').FnShowSupplierDiv();
+      },
+   
+      FnIntentStateUpdate:function(updatestate){
+        //alert(updatestate);
+        intentno=sessionStorage.getItem("sess_curr_intentregno");
+        //alert(intentno);
+        promotestate=updatestate;
+        this.intentupdateurl=sessionStorage.getItem("curr_sess_url")+"intentstateupdate-service";     
+        var obj={"itemdes":"","intentregno":"","loggedrole":"","updatestate":""};
+        obj.loggedrole=sessionStorage.getItem("loggedrole");
+        obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+        obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");
+        obj.updatestate=updatestate;
+        //obj.pono=pono;
+        this.intentupdateparam=obj;
+        //alert(JSON.stringify(obj));
+        this.$.intentstateupdateajax.generateRequest();
+      } ,
+      intentstateupdateResponse:function(e){
+        //alert(JSON.stringify(e.detail.response));
+        if(e.detail.response.returnval=="succ"){
+          alert("done");
+          this.promoterolereadurl=sessionStorage.getItem("curr_sess_url")+"promoteroleread-service";
+          var obj={"intentno":""};
+          obj.intentno=intentno;
+          this.promoteroleread=obj;
+          this.$.promoteRolereadAjax.generateRequest();
+        }
+        else
+        {
+          alert("not done");
+        }
+      },
+      FnPromoteRolereadResponse:function(e){  
+          var pstate;             
+          var arr=e.detail.response.itemarr;
+          //alert("Inward Register Note is created! Sent for the Approval with  "+arr[0].Intent_PO);
+          if(arr[0].state=="external"){
+          if(promotestate=="Approved") 
+           pstate="Item Promoted! Sent for the Approval with  "+arr[0].Intent_PO;       
+          else if(promotestate=="POCreated")          
+           pstate="Item Promoted! Sent for the Approval with  "+arr[0].Intent_Accept;
+          else if(promotestate=="POSent")          
+           pstate="Item Promoted! Sent for the Approval with  "+arr[0].Intent_Accept;
+          else if(promotestate=="Accepted")          
+           pstate="Item Accepted!";
+          }
+          if(arr[0].state=="internal"){
+          if(promotestate=="Approved")          
+            pstate="Item Promoted! Sent for the Approval with  "+arr[0].Intent_Supply;
+          else if(promotestate=="Supplied")          
+            pstate="Item Promoted! Sent for the Approval with  "+arr[0].Intent_Accept;
+          else if(promotestate=="Accepted")          
+            pstate="Item Accepted!";
+          }
+
+          if(arr[0].state=="spot"){
+            pstate="Item Approved!";
+          }
+          this.$.ID_Show_Dialog.FnShowDialog(pstate,"");
+          this.$.gs.FnIntentitemReadService();
+          document.querySelector('viewintentitem-page').setToggle();
+          //document.querySelector('drawermenu-card').FnSetRefereshPage();
+          window.location.href="../elements/indexhome.html";
+      },
+      FnCreatePO:function(supplier){
+        var obj={"supplier":"","itemdes":"","intentregno":""};
+        obj.supplier=supplier;
+        obj.intentregno=sessionStorage.getItem("sess_curr_intentregno");
+        obj.itemdes=sessionStorage.getItem("sess_curr_itemdes");
+        this.itempocreateparam=obj;
+        this.itempocreateurl=sessionStorage.getItem("curr_sess_url")+"itempocreate-service"
+        this.$.itempocreateajax.generateRequest();
+      },
+      FnitempocreateResponse:function(e){
+        //alert(e.detail.response.itemarr);
+        if(e.detail.response.itemarr=='succ')
+          document.querySelector('viewintentitemexpand-page').FnSetPoRaiseFlag();
+        else
+          alert('Unable to craete PO!');
+      },
+      FnIntentViewPoCreateService:function(poarr){
+              //alert(JSON.stringify(poarray));
+        poarray=poarr;
+        arrlength=poarray.length;
+ 
+        this.viewintentpocreateurl=sessionStorage.getItem("curr_sess_url")+"viewintentpocreate-service";
+        this.$.viewintentpocreateajax.generateRequest();
+
+      },
+      FnviewintentpocreateResponse:function(e){
+        var temparr=[];
+        var group='65';
+        var ponumber=parseInt(e.detail.response.itemarr.returnval)+1;
+        largestpono=ponumber;
+        var temppo;
+        for(var i=0;i<poarray.length;i++){
+          var obj={"itemdes":"","supplier":"","intentregno":"","ponumber":""};
+          obj.itemdes=poarray[i].itemdes;
+          obj.supplier=poarray[i].supplier;
+          obj.intentregno=poarray[i].intentregno;
+          obj.ponumber=ponumber+String.fromCharCode(group);
+          group=parseInt(group)+1;
+          temparr.push(obj);
+          this.FnViewIntentPromoteService(temparr);
+         }
+      },
+      FnViewIntentPromoteService:function(temparr){
+         //alert(JSON.stringify(temparr));
+         for(var i=0;i<temparr.length;i++){
+          var obj={"itemdes":"","supplier":"","intentregno":"","":"ponumber"};
+          obj.itemdes=temparr[i].itemdes;
+          obj.supplier=temparr[i].supplier;
+          obj.intentregno=temparr[i].intentregno;
+          obj.ponumber=temparr[i].ponumber;
+          //alert(JSON.stringify(obj));
+         this.viewintentpromoteurl=sessionStorage.getItem("curr_sess_url")+"viewintentpromote-service";
+         this.viewintentpromoteparam=obj;
+         //alert(this.$.viewintentpromteajax);
+         this.$.viewintentpromoteajax.generateRequest();
+         }
+      },
+      FnviewintentpromoteResponse:function(e){
+        //alert(e.detail.response.itemarr);
+        if(JSON.stringify(e.detail.response.itemarr=='succ'))
+        {
+        no=no+1;
+        if(arrlength==no){
+         var obj={"ponumber":largestpono};
+         this.posequpdateurl=sessionStorage.getItem("curr_sess_url")+"posequpdate-service";
+         this.posequpdateparam=obj;         
+         this.$.posequpdateajax.generateRequest();        
+        }
+        }
+        else
+          alert('PO is not created succ!');
+      },
+      FnposequpdateResponse:function(e){
+        //alert(JSON.stringify(e.detail.response.itemarr));
+        if(e.detail.response.itemarr=='succ'){
+          alert("Po created!");
+          window.location.href="../elements/indexhome.html";
+        }
+        else
+          alert('PO not created!');
+      }
+    });
+  })();
+  </script>
+</dom-module>

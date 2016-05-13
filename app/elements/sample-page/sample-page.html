@@ -1,0 +1,55 @@
+<!--Component import-->
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="import" href="../../bower_components/iron-a11y-keys/iron-a11y-keys.html">
+
+
+<dom-module id="sample-page" on-keypress="{{keypress}}">
+  <template>
+    <style is="custom-style">
+      paper-input{
+        width: 30%;
+      }
+
+    </style>
+  
+    <paper-input label="Input label" value="{{value1}}"></paper-input>
+    <paper-input label="Input label" value="{{value2}}"></paper-input>
+    <paper-input label="Input label" value="{{value3}}"></paper-input>
+    <paper-input label="Input label" value="{{value4}}"></paper-input>
+    <paper-button>Submit</paper-button>
+
+  </template>
+  <!--JS file import for this page-->
+  <script>
+    (function(){
+  var itemarr=[];
+
+  Polymer({
+    is: "sample-page",
+    ready:function()
+    {
+      this.value1="";
+      this.value2="";
+      this.value3="";
+      this.value4="";
+    },
+    FnClear:function(){
+      this.value1="";
+      this.value2="";
+      this.value3="";
+      this.value4="";
+    }
+  });
+})();
+  </script>
+
+</dom-module>

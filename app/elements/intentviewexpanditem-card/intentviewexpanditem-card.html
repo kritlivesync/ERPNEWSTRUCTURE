@@ -1,0 +1,105 @@
+<!--Component import-->
+<link rel="import" href="../../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../../bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../../bower_components/paper-menu/paper-menu.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/iron-input/iron-input.html">
+<link rel="import" href="../../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../../bower_components/paper-tabs/paper-tabs.html">
+<link rel="import" href="../../bower_components/paper-tab/paper-tab.html">
+<link rel="import" href="../../bower_components/paper-card/paper-card.html">
+<link rel="import" href="../../bower_components/paper-item/paper-item.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/paper-icon-button/paper-icon-button.html">
+<link rel="import" href="../../bower_components/paper-tooltip/paper-tooltip.html">
+
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<dom-module id="intentviewexpanditem-card">
+  <template>
+    <style>
+      .repeatcard{
+        @apply(--layout-horizontal);
+        width: 100%;
+        margin-left: -5%;
+        text-align: center;
+        position: relative;
+      }
+      #itemdes{
+        width:280px;
+      }
+      #specification{
+        width:140px;
+        margin-left: 0%;
+      }
+      #qtr{
+        width:160px;
+        margin-left: -1%;
+      }
+      #itemdes{
+        margin-left: 8%;
+      }   
+      paper-button{
+        text-transform: none;
+      }
+      .supplierdiv{
+        margin-left: 100px;
+      }
+      #status{
+        width:160px;
+        margin-left:1%;
+      }  
+      #due{
+        width:160px;
+        margin-left: 1%;
+      }   
+      #promot{
+        margin-left: 0%;
+      }
+
+    </style>
+    <!--template for showing item info-->
+    <form is="iron-form" id="form" method='POST' action="{{url}}" on-iron-form-response="Response">
+      <div class="repeatcard">
+        <div id="itemdes" ><paper-item name="itemdes" value="{{itemdes}}">{{itemdes}}</paper-item></div>
+        <div id="specification" ><paper-item name="specification" value="{{specification}}">{{specification}}</paper-item></div>
+        <div id="qtr" ><paper-item name="quantity" value="{{quantity}}">{{quantity}}/{{unit}}</paper-item></div>
+        <!-- <div id="qta" ><paper-item name="unit" value="{{unit}}">{{unit}}</paper-item></div> -->
+        <div id="status" ><paper-item name="status" value="{{intentstatus}}">{{intentstatus}}</paper-item></div>
+        <div id="due" ><paper-item name="due" value="{{duedate}}">{{duedate}}</paper-item></div>       
+        <div id="promot" ><paper-button id="promote" disabled="{{disableflag}}" hidden$="{{hideadd}}" name="promote" value="Add" on-click="FnCreatePo" noink>Add</paper-button></div>
+        <div class="supplierdiv" hidden$="{{hidesupplier}}" id="supplier">
+        <paper-dropdown-menu label="Select">
+        <paper-menu class="dropdown-content" on-iron-select="FnSelectSupplier">
+        <template is="dom-repeat" items="{{suppliernamearr}}">
+        <paper-item value="{{item.Supplier_Name}}">{{item.Supplier_Name}}</paper-item>
+        </template>
+        </paper-menu>
+        </paper-dropdown-menu>         
+        </div>
+      </div>
+    </form>
+
+
+ <!--Component which make request to display the Intent items based on INT no-->
+    <iron-ajax
+      id="intentpoitemajax"
+      url="{{intentpourl}}"
+      params='{{intentpoparam}}'
+      method="post"
+      handle-as="json"
+      content-type="application/json"
+      on-response="FnintentpoitemResponse">
+    </iron-ajax>
+
+
+
+  </template>
+  <!--JS file import-->
+  <script src="../../scripts/intentviewexpanditem-card.js">
+
+  </script>
+
+</dom-module>

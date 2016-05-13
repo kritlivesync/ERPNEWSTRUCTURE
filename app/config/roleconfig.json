@@ -1,0 +1,85 @@
+[
+  {
+    "role": [
+      {
+        "rolename": "Security guard",
+         "RoleFlag": "0",
+         "menu" : ["Inward Items Register","Outward Items Register","Sample Register"]
+      },
+      {
+        "rolename": "Stores manager",
+        "RoleFlag": "1",
+        "status":"Stores",
+        "newstatus":"OldStores",
+        "updatestatus":"Production",
+        "menu" : ["GRN Flow","Add Intent","View Intent"]
+      },
+      {
+        "rolename": "Production manager",
+        "RoleFlag": "2",
+        "status":"Production",
+        "newstatus":"OldProduction",
+        "updatestatus":"Quality",
+        "menu" : ["GRN Flow","Add Intent","View Intent"]
+      },
+      {
+        "rolename": "Quality manager",
+        "RoleFlag": "3",
+        "status":"Quality",
+        "newstatus":"OldQuality",
+        "updatestatus":"Purchase",
+        "menu" : ["GRN Flow"]
+      },
+      {
+        "rolename": "Purchase manager",
+        "RoleFlag": "4",
+        "status":"Purchase",
+        "newstatus":"OldPurchase",
+        "updatestatus":"Confirm",
+        "menu" : ["GRN Flow","View Intent","Add Supplier"]
+      },
+      {
+        "rolename": "Administration manager",
+        "RoleFlag": "5",
+        "menu" : ["View Intent"]
+      },
+      {
+        "rolename": "Administration admin",
+        "RoleFlag": "6",
+        "menu" : ["Add Item"]
+      },
+      {
+        "rolename": "Maintenance manager",
+        "RoleFlag": "7",
+        "menu" : ["Add Intent","View Intent"]
+      },
+      {
+        "rolename": "Office admin",
+        "RoleFlag": "8",
+        "menu" : ["Add Intent","View Intent"]
+      },
+      {
+        "rolename": "Ceo ceo",
+        "RoleFlag": "9",
+        "menu" : ["Add Intent","View Intent","Approve Supplier"]
+      },
+      {
+        "rolename": "Sales manager",
+        "RoleFlag": "10",
+        "menu" : ["Outward Items Report","Add Customer"]
+      },
+      {
+        "rolename": "Logistics manager",
+        "RoleFlag": "11"
+      }
+    ]
+  },
+    {
+    "flowbutton": [
+      "Gate Accept",
+      "Physical Inspection",
+      "Quality Inspection",
+      "Confirm Purchase"
+    ]
+  }
+]

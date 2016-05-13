@@ -1,0 +1,45 @@
+
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../../bower_components/intent-service/intet-service.html">
+<dom-module id="promotebutton-card">
+  <template>
+    <style>
+      :host {
+        display: block;
+      }
+      paper-button{
+        text-transform: none;
+      }
+      paper-button{
+        text-align: center;
+        border-radius: 2px;
+        box-shadow: rgba(0, 0, 0, 0.0980392) 5px 5px 4px, rgba(0, 0, 0, 0.0980392) 0px 0px 10px;
+        background-color: #bfbfbf;
+        color: black;
+        height: 30px;
+      }
+
+    </style>
+    <div class="promotebtn">
+    <paper-button id="promote"  name="promote" value="Create PO" on-click="FnPromoteState" noink>Create PO</paper-button>
+    </div>
+    <intent-service id="intentservice"></intent-service>
+  </template>
+  <script>
+  (function() {
+    'use strict';
+    var poarray;
+    Polymer({
+      is: 'promotebutton-card',
+    FnPOArrayInfo:function(poarr){
+    poarray=poarr;
+    },
+    FnPromoteState:function(){
+    this.$.intentservice.FnIntentViewPoCreateService(poarray);
+    }
+    });
+  })();
+  </script>
+</dom-module>

@@ -1,0 +1,46 @@
+
+<link rel="import" href="..\..\bower_components/polymer/polymer.html">
+<link rel="import" href="../../bower_components/iron-pages/iron-pages.html">
+<link rel="import" href="../app-homepage/app-homepage.html">
+<link rel="import" href="../login-card/login-card.html">
+<link rel="import" href="../webcomponent-service/webcomponent-service.html">
+<link rel="import" href="../url-service/url-service.html">
+<dom-module id="app-card">
+  <template>
+    <style>
+   
+    </style>
+    <iron-pages selected="{{page}}" attr-for-selected="data-category">
+    <section data-category="login-card">
+    <login-card></login-card>
+    </section> 
+    <section data-category="app-homepage">
+    <app-homepage></app-homepage>
+    </section>    
+    </iron-pages>  
+    <url-service id="urlservice"></url-service>
+    <!--Importing webcomponent-service component to bind dynamic values to labels and error messages-->
+    <webcomponent-service id="ID_WebcomponentService" label="{{label}}"></webcomponent-service> 
+  </template>
+  <script>
+  (function() {
+    'use strict';
+
+    Polymer({
+      is: 'app-card',
+      ready:function(){
+        this.page='login-card';
+         localStorage.setItem("curr_sess_showpage","login-card");
+         this.$.ID_WebcomponentService.callWebcomponentService();
+      },
+      FnSetPage:function(page){
+        //alert(page);
+        this.page=page;
+         localStorage.setItem("curr_sess_showpage",page);
+         this.$.ID_WebcomponentService.callWebcomponentService();
+      }
+    
+    });
+  })();
+  </script>
+</dom-module>

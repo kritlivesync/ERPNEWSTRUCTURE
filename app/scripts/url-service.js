@@ -14,7 +14,7 @@
     {
       var arr=e.detail.response;
       sessionStorage.setItem("curr_sess_url",arr[0].url);
-      document.querySelector('login-card').setUrl(arr[0].url);
+      // document.querySelector('app-card').setUrl(arr[0].url);
     }
   });
 })();

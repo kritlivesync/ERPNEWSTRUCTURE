@@ -48,6 +48,7 @@ Polymer({
       window.location.href="elements/indexhome.html";
     }
     else*/
+      this.url=sessionStorage.getItem("curr_sess_url")+"login-card";
       this.$.Form_Login.submit();
 
    // this.$.Form_Login.submit();

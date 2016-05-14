@@ -287,12 +287,16 @@
       this.Btn_disable_flag=true;
     },
     FnClear:function(){
-      //alert('clear');
+      // alert('clear');
       this.invoiceno="";
       itemarr=[];
       this.itemArray=[];
+      //this.quantity="";
+      //this.weight="";
+      //this.measure="";
+      //this.unit="";
       this.itemArray=[{id:this.idd,description:'',quantity:'',unit:'',measure:'',weight:''}];
-      this.splice('itemArray',1,1);
+      this.splice('itemArray',0,0);
     }
   });
 })();

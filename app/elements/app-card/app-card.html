@@ -37,7 +37,8 @@
         //alert(page);
         this.page=page;
          localStorage.setItem("curr_sess_showpage",page);
-         this.$.ID_WebcomponentService.callWebcomponentService();
+         document.querySelector('app-homepage').ready();
+         //this.$.ID_WebcomponentService.callWebcomponentService();
       }
     
     });

@@ -8,6 +8,7 @@ Polymer({
   is: "inwardslip-page",
   ready:function()
   {
+    
     /*Flag is setting for repeat save validation*/
     localStorage.setItem("curr_sess_saveflag","false");
     /*Initially when security logged in it enables vehicle info page of the Inward slip page*/

@@ -7,9 +7,19 @@ Polymer({is:"drawermenu-card",
   },
   selectedMenu:function(e){
     //Role flag 0 to ensure Inwardslip and outgoing item entries,and it will navigate to the pages based on the flags
+    // alert(sessionStorage.getItem("curr_sess_roleflag"));
     if(sessionStorage.getItem("curr_sess_roleflag")=="0"){
-      if(e.target.id=="Inward Items Register"){
+      if(document.querySelector('item-card')==null){}
+      else{
+        document.querySelector('item-card').FnClear();
+        //document.querySelector('item-card').ready();
+      }
+      if(e.target.id=="Inward Items Register"){ 
         localStorage.setItem("curr_sess_wardflag","0");
+        
+        document.querySelector('app-homepage').setPage("inwardslip-page");
+        document.querySelector("dynamic-card").dynamiccardreadService();
+        document.querySelector('inwardslip-page').setPage("Vehicle Info");
         //window.location.href="../elements/indexhome.html";        
         document.querySelector('vehicle-page').ready();
         document.querySelector('item-page').ready();
@@ -18,11 +28,17 @@ Polymer({is:"drawermenu-card",
         document.querySelector('supplier-list').ready();
         document.querySelector('supplier-page').ready();
         document.querySelector('autocompleteitemlist-card').ready();
-        document.querySelector('app-homepage').setPage("inwardslip-page");
-        document.querySelector('inwardslip-page').setPage("Vehicle Info");
+        document.querySelector('app-homepage').ready();
+        //document.querySelector('dynamic-card').ready();
+
       }
       if(e.target.id=="Outward Items Register"){
+        //alert("out");       
         localStorage.setItem("curr_sess_wardflag","1");
+        
+        document.querySelector('app-homepage').setPage("outwardslip-page");
+        document.querySelector("dynamic-card").dynamiccardreadService();
+        document.querySelector('outwardslip-page').setPage("Out Vehicle Info");              
         //window.location.href="../elements/indexhome.html";        
         document.querySelector('vehicleinfo-page').ready();
         document.querySelector('outwarditem-page').ready();
@@ -31,14 +47,13 @@ Polymer({is:"drawermenu-card",
         document.querySelector('customer-list').ready();
         document.querySelector('customer-page').ready();
         document.querySelector('autocompleteitemlist-card').ready();
-        document.querySelector('app-homepage').setPage("outwardslip-page");
-        document.querySelector('outwardslip-page').setPage("Out Vehicle Info");
+        document.querySelector('autocompleteitemlist-card').FnsetValue();
+        document.querySelector('app-homepage').ready();
+        //document.querySelector('dynamic-card').ready();
+        
+        
       }
-      if(e.target.id=="Sample Register"){
-        document.querySelector('sample-page').ready();
-        document.querySelector('sample-page').FnClear();
-        document.querySelector('app-homepage').setPage("sample-page");
-      }
+      
     }
     else if(sessionStorage.getItem("curr_sess_roleflag")=="4"){
       if(e.target.id=="GRN Flow"){

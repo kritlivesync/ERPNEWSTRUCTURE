@@ -4,7 +4,7 @@
       {
         "rolename": "Security guard",
          "RoleFlag": "0",
-         "menu" : ["Inward Items Register","Outward Items Register","Sample Register"]
+         "menu" : ["Inward Items Register","Outward Items Register"]
       },
       {
         "rolename": "Stores manager",

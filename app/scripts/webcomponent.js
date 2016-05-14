@@ -42,7 +42,7 @@
     /*Role response received*/
     FnRoleconfigreadResponse:function(e){
       var roleconfig=e.detail.response;
-      //alert(JSON.stringify(roleconfig));
+      // alert(JSON.stringify(roleconfig));
       for(var i=0;i<roleconfig[0].role.length;i++){
         /*Checking logged role with role config json if exists returns the flag for the corresponding role then it will navigate to the index home(my-app js) page*/
         if(sessionStorage.getItem("loggedrole")==roleconfig[0].role[i].rolename){
@@ -52,15 +52,16 @@
           localStorage.setItem("curr_sess_currflowupdatestatus",roleconfig[0].role[i].updatestatus);
           //alert(roleconfig[0].role[i].RoleFlag+" "+roleconfig[0].role[i].status+" "+roleconfig[0].role[i].newtatus+" "+roleconfig[0].role[i].updatetatus);
           if(sessionStorage.getItem("curr_sess_roleflag")=="6")
-          localStorage.setItem("curr_sess_wardflag","");
+          localStorage.setItem("curr_/sess_wardflag","");
           if(sessionStorage.getItem("curr_sess_roleflag")!=null){
           //window.location.href="../elements/indexhome.html";
           document.querySelector('app-card').FnSetPage('app-homepage');
           document.querySelector('app-homepage').ready();
-          document.querySelector('drawermenu-card').ready();
-          document.querySelector('drawermenu-list').ready();
-          document.querySelector('dynamic-card').ready();
-          document.querySelector('dynamic-menu-card').ready();
+          document.querySelector("dynamic-card").dynamiccardreadService();
+          //document.querySelector('drawermenu-card').ready();
+          //document.querySelector('drawermenu-list').ready();
+          //document.querySelector('dynamic-card').ready();
+          // document.querySelector('dynamic-menu-card').ready();
         }
         }
       }

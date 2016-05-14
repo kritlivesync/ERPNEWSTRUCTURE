@@ -12,8 +12,7 @@ Polymer({
     this.$.intentview.style.visibility='hidden';
     this.$.promotebutton.style.visibility='hidden';
     this.$.intentflow.style.visibility='hidden';
-
-    this.$.dynamicbutton.style.visibility='hidden';
+    this.$.dynamicbutton.style.visibility='hidden';    
     
     if(sessionStorage.getItem("curr_sess_roleflag")=="10"){
       //alert("sales");
@@ -68,22 +67,32 @@ Polymer({
     //if(sessionStorage.getItem("loggedrole")=="Security guard")
     if(sessionStorage.getItem("curr_sess_roleflag")=="0"&&sessionStorage.getItem("curr_sess_roleflag")!="5"&&sessionStorage.getItem("curr_sess_roleflag")!="6")
     {
-      //alert("inwardoutward");
+      // alert("inwardoutward");
       /*Condtion to navigate to the inward item entry page when he initially logged in or changing options in drawer menu*/
       if(localStorage.getItem("curr_sess_wardflag")!="1"){
+        // alert("inward");
         localStorage.setItem("curr_sess_showpage","Vehicle Info");
-        this.page="inwardslip-page";
+        this.page="inwardslip-page"; 
+        if(document.querySelector('inwardslip-page')==null){}
+        else
+        document.querySelector('inwardslip-page').setPage('Vehicle Info');
+        // document.querySelector('dynamic-card').ready();       
       }
       /*Condtion to navigate to the outward item entry page when he initially logged in or changing options in drawer menu*/
       else
       {
+        // alert("outward");
         localStorage.setItem("curr_sess_showpage","Out Vehicle Info");
         this.page="outwardslip-page";
+        // this.$.outward.setPage('Out Vehicle Info');
+        // document.querySelector('dynamic-card').ready();       
+        
       }
       /*For security flow states are not necessary,which was hided from him*/
       this.$.flow.style.visibility='hidden';
       this.$.flowbutton.style.visibility='hidden';
       this.$.searchmenu.style.visibility='hidden';
+
     }
     /*Condtion to navigate to the grn flow page according to the role(role flags of the managers),who logged in*/
     //if(sessionStorage.getItem("loggedrole")=="Stores manager"||sessionStorage.getItem("loggedrole")=="Production manager"||sessionStorage.getItem("loggedrole")=="Quality manager"||sessionStorage.getItem("loggedrole")=="Purchase manager")

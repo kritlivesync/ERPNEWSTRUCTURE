@@ -7,8 +7,8 @@ Polymer({
   is: "login-card",
   ready:function()
   {
-    localStorage.setItem("curr_sess_showpage","login-card");
-    this.$.ID_WebcomponentService.callWebcomponentService();
+    //localStorage.setItem("curr_sess_showpage","login-card");
+    //this.$.ID_WebcomponentService.callWebcomponentService();
   },
   //Response received after authenticating user,if it is valid user navigating to indexhome.html page otherwise it will give alert message to the user
   Response:function(e){
@@ -22,6 +22,8 @@ Polymer({
       sessionStorage.setItem("loggedrole",logflag);
       /*Calling webcomponent service for reading role from roleconfig json file*/
       document.querySelector("webcomponent-service").roleconfigreadService();
+      document.querySelector("webcomponent-service").drawermenureadService();
+      
       //window.location.href="elements/indexhome.html";
     }
     else

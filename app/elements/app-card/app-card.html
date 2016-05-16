@@ -18,7 +18,15 @@
     <app-homepage></app-homepage>
     </section>    
     </iron-pages>  
-    <url-service id="urlservice"></url-service>
+     <iron-ajax
+      auto
+      id="urlreadajax"
+      url="../../config/url.json"
+      handle-as="json"
+      content-type="application/json"
+      on-response="urlreadResponse">
+    </iron-ajax>
+    <!-- <url-service id="urlservice"></url-service> -->
     <!--Importing webcomponent-service component to bind dynamic values to labels and error messages-->
     <webcomponent-service id="ID_WebcomponentService" label="{{label}}"></webcomponent-service> 
   </template>
@@ -32,6 +40,12 @@
         this.page='login-card';
          localStorage.setItem("curr_sess_showpage","login-card");
          this.$.ID_WebcomponentService.callWebcomponentService();
+      },
+      urlreadResponse:function(e)
+      {
+      var arr=e.detail.response;
+      // alert(arr[0].url);
+      sessionStorage.setItem("curr_sess_url",arr[0].url);      
       },
       FnSetPage:function(page){
         //alert(page);

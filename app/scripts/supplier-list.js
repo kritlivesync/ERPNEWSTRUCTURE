@@ -14,7 +14,7 @@
   var temp1=[];
   Polymer({is:"supplier-list",
     ready:function(){
-      this.value="";
+      //this.value="";
       //The card consist of two fields to enter supplier info,if it is in inward page it has to show only one supplier name,so to hide and make visible in additem card here used isHidden attribute
       if(sessionStorage.getItem("curr_sess_roleflag")=="0"||(sessionStorage.getItem("curr_sess_roleflag")=="6"&&localStorage.getItem("curr_sess_wardflag")==""))
       this.isHidden=true;
@@ -269,6 +269,10 @@
     },
     FnValidate:function(){
       this.$.supplier.validate();
+    },
+    FnClear:function(){
+      this.value="";
+      
     }
   });
 })();

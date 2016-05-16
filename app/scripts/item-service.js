@@ -10,12 +10,12 @@ var intentregno;
     ready:function()
     {
       this.length=0;
-      this.no=0;
-      this.url=sessionStorage.getItem("curr_sess_url")+"itemsave-service";
-      this.url1=sessionStorage.getItem("curr_sess_url")+"inwardregnoseq-service";
+      this.no=0;      
     },
     //Method it will pass req to the server to insert vehicle info and generating seq no
     FnItemwriteService:function(invoiceno,invoicedate,vno,vname,dname,dno,itemarr){
+      this.url=sessionStorage.getItem("curr_sess_url")+"itemsave-service";
+      this.url1=sessionStorage.getItem("curr_sess_url")+"inwardregnoseq-service";
       this.items=[];
       this.items=itemarr;
       this.length=this.items.length;
@@ -100,6 +100,7 @@ var intentregno;
           obj.unitmeasure=this.items[i].unitmeasure;
           obj.remark=this.items[i].remark;
           this.intentwrite=obj;
+
           this.intentwriteurl=sessionStorage.getItem("curr_sess_url")+"intentitemwrite-service";
           this.$.intentitemwriteAjax.generateRequest();
         }

@@ -7,6 +7,7 @@ Polymer({
     //this.page='home-page';
 
     //alert(localStorage.getItem("curr_sess_intenttoggleflag"));
+    this.$.urlservice.urlService();
 
     this.userlabel="Signout";
     this.$.intentview.style.visibility='hidden';

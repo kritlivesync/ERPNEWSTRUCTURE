@@ -24,8 +24,10 @@ Polymer({is:"drawermenu-card",
         document.querySelector('vehicle-page').ready();
         document.querySelector('item-page').ready();
         document.querySelector('item-page').FnClear();
+        document.querySelector('item-page').FnBtnEnable();
         //document.querySelector('item-card').FnClear();
         document.querySelector('supplier-list').ready();
+        document.querySelector('supplier-list').FnClear();
         document.querySelector('supplier-page').ready();
         document.querySelector('autocompleteitemlist-card').ready();
         document.querySelector('app-homepage').ready();

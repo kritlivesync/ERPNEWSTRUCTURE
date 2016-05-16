@@ -41,6 +41,7 @@
  
   <link rel="import" href="../approvesupplier-card/approvesupplier-card.html">
   <link rel="import" href="../dynamicbutton-card/dynamicbutton-card.html">
+  <link rel="import" href="../url-service/url-service.html">
   
 <dom-module id="app-homepage">
   <style is="custom-style">
@@ -282,6 +283,7 @@
             <!--<section data-category="approvesupplier-card">
               <approvesupplier-card></approvesupplier-card>
             </section>-->
+
         
           </iron-pages>
         </div>
@@ -289,7 +291,7 @@
         </div>
       </paper-header-panel>
     </paper-drawer-panel>
-
+    <url-service id="urlservice"></url-service>
   </template>
   <!--Imported script for this element-->
   <script src="../../scripts/app-homepage.js"></script>

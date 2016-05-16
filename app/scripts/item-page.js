@@ -280,10 +280,24 @@
       document.querySelector('#additem').style.backgroundColor='grey';
       this.Btn_disable_flag=true;
     },
+    FnBtnEnable:function(){
+      document.querySelector('#save').style.backgroundColor='#3d6868';
+      document.querySelector('#additem').style.backgroundColor='#3d6868';
+      this.Btn_disable_flag=false;
+    },
     FnEnableHide:function(){
       this.isHidden=false;
     },
     FnClear:function(){
+      this.Btn_disable_flag=false;
+      this.Supplier_Name="Supplier Name";
+      this.Supplier_Name_error="Enter supplier name";
+      this.nullflag=0;
+      this.flag=0;
+      this.itemflag=0;
+      this.idd=0;
+      this.isHidden=true;
+      this.existflag="0";
       this.itemArray=[];
       itemarr=[];
       this.itemArray=[{id:this.idd,description:'',received:'',unit:'',remark:'','measure':''}];
